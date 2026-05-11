@@ -10,10 +10,22 @@ public class RegisterPage {
     private final SelenideElement passwordSubmitInput = $("#passwordSubmit");
     private final SelenideElement submitBtn = $(".form__submit");
 
-    public MainPage register(String username, String password, String passwordSubmit) {
+    public RegisterPage setUsername(String username) {
         usernameInput.setValue(username);
+        return new RegisterPage();
+    }
+
+    public RegisterPage setPassword(String password) {
         passwordInput.setValue(password);
-        passwordSubmitInput.setValue(passwordSubmit);
+        return new RegisterPage();
+    }
+
+    public RegisterPage setPasswordSubmit(String password) {
+        passwordSubmitInput.setValue(password);
+        return new RegisterPage();
+    }
+
+    public MainPage submitRegisration() {
         submitBtn.click();
         return new MainPage();
     }
