@@ -1,4 +1,4 @@
-package io.student.rcc.test.fake;
+package io.student.rcc;
 
 import io.qameta.allure.Allure;
 import org.junit.jupiter.api.Test;
