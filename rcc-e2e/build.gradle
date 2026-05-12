@@ -110,6 +110,17 @@ dependencies {
     testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
 }
 
+tasks.withType(Test).configureEach {
+    options {
+        systemProperties(System.getProperties())
+    }
+    testLogging {
+        showStandardStreams = true
+        exceptionFormat = 'full'
+    }
+    useJUnitPlatform()
+}
+
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
