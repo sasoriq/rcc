@@ -65,6 +65,7 @@ dependencies {
     }
     testImplementation "org.springframework.data:spring-data-commons:${springDataCommonsVersion}"
     // DB
+    testImplementation "mysql:mysql-connector-java:${project.ext.mysqlDriverVersion}"
     testImplementation "org.springframework:spring-jdbc:${springJdbcVersion}"
     testImplementation "org.postgresql:postgresql:${postgresDriverVersion}"
     testImplementation "p6spy:p6spy:${p6spyVersion}"
