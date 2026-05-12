@@ -23,12 +23,12 @@ public class LoginPage {
         return new LoginPage();
     }
 
-    public MainPage successfullSubmitLogin() {
+    public MainPage successfulSubmitLogin() {
         submitBtn.click();
         return new MainPage();
     }
 
-    public LoginPage unsuccessfullSubmitLogin() {
+    public LoginPage unsuccessfulSubmitLogin() {
         submitBtn.click();
         return new LoginPage();
     }

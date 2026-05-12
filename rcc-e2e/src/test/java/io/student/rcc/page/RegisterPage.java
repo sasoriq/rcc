@@ -33,7 +33,7 @@ public class RegisterPage {
         return new RegisterPage();
     }
 
-    public RegisterPage submitRegisration() {
+    public RegisterPage submitRegistration() {
         submitBtn.click();
         return new RegisterPage();
     }
