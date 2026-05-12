@@ -9,7 +9,6 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.sql.PreparedStatement;
-import java.sql.Statement;
 import java.util.UUID;
 
 public class UsersDbClient implements UsersClient {
@@ -18,7 +17,7 @@ public class UsersDbClient implements UsersClient {
     private final PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
     @Override
-    public UserJson createUser(String username, String password) {
+    public UserJson createUser(UserJson user) {
         final String userId = UUID.randomUUID().toString();
 
         final JdbcTemplate jdbcTemplate = new JdbcTemplate(
@@ -26,24 +25,23 @@ public class UsersDbClient implements UsersClient {
                         CFG.authJdbcUrl(),
                         CFG.dbUsername(),
                         CFG.dbPassword(),
-                        false
+                        true
                 )
         );
 
         jdbcTemplate.update(
                 con -> {
                     PreparedStatement ps = con.prepareStatement(
-                            "INSERT INTO user (user_id, username, account_non_expired, account_non_locked, " +
-                            "credentials_non_expired, enabled, password) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                            Statement.RETURN_GENERATED_KEYS
+                            "INSERT INTO user (id, username, account_non_expired, account_non_locked, " +
+                                "credentials_non_expired, enabled, password) VALUES (UUID_TO_BIN(?, true), ?, ?, ?, ?, ?, ?)"
                     );
                     ps.setString(1, userId);
-                    ps.setString(2, username);
+                    ps.setString(2, user.username());
                     ps.setInt(3, 1);
                     ps.setInt(4, 1);
                     ps.setInt(5, 1);
                     ps.setInt(6, 1);
-                    ps.setString(7, passwordEncoder.encode(password));
+                    ps.setString(7, passwordEncoder.encode(user.password()));
                     return ps;
                 }
         );
@@ -51,8 +49,7 @@ public class UsersDbClient implements UsersClient {
         jdbcTemplate.update(
                 con -> {
                     PreparedStatement ps = con.prepareStatement(
-                            "INSERT INTO authority (authority, user_id) VALUES (?, UUID_TO_BIN(?, true))",
-                            Statement.RETURN_GENERATED_KEYS
+                            "INSERT INTO authority (authority, user_id) VALUES (?, UUID_TO_BIN(?, true))"
                     );
                     ps.setString(1, Authority.read.name());
                     ps.setString(2, userId);
@@ -63,8 +60,7 @@ public class UsersDbClient implements UsersClient {
         jdbcTemplate.update(
                 con -> {
                     PreparedStatement ps = con.prepareStatement(
-                            "INSERT INTO authority (authority, user_id) VALUES (?, UUID_TO_BIN(?, true))",
-                            Statement.RETURN_GENERATED_KEYS
+                            "INSERT INTO authority (authority, user_id) VALUES (?, UUID_TO_BIN(?, true))"
                     );
                     ps.setString(1, Authority.write.name());
                     ps.setString(2, userId);
@@ -74,9 +70,10 @@ public class UsersDbClient implements UsersClient {
 
         return new UserJson(
                 UUID.fromString(userId),
-                username,
-                "firstName",
-                ""
+                user.username(),
+                user.firstname(),
+                user.password(),
+                user.avatar()
         );
     }
 }

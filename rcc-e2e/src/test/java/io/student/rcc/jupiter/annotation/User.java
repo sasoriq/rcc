@@ -12,8 +12,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @ExtendWith(UserExtension.class)
 public @interface User {
-    String username();
-    String password();
-    String firstname();
-    String avatar() default "";
+    String password() default "12345";
 }

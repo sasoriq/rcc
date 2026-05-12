@@ -1,9 +1,11 @@
 package io.student.rcc.jupiter.extension;
 
+import com.github.javafaker.Faker;
 import io.student.rcc.jupiter.annotation.User;
 import io.student.rcc.model.UserJson;
 import io.student.rcc.services.UsersClient;
 import io.student.rcc.services.UsersDbClient;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.extension.*;
 import org.junit.platform.commons.support.AnnotationSupport;
@@ -12,9 +14,10 @@ public class UserExtension implements BeforeEachCallback, ParameterResolver {
 
     public static final ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create(UserExtension.class);
     private final UsersClient usersClient = new UsersDbClient();
+    private static final Faker faker = new Faker();
 
     @Override
-    public void beforeEach(ExtensionContext context) throws Exception {
+    public void beforeEach(ExtensionContext context) {
         AnnotationSupport.findAnnotation(
                 context.getRequiredTestMethod(),
                 User.class
@@ -22,22 +25,23 @@ public class UserExtension implements BeforeEachCallback, ParameterResolver {
                 anno -> {
                     UserJson user = new UserJson(
                             null,
-                            anno.username(),
-                            anno.firstname(),
-                            anno.avatar()
+                            faker.name().username(),
+                            faker.name().firstName(),
+                            anno.password(),
+                            faker.internet().avatar()
                     );
-                    context.getStore(NAMESPACE).put(context.getUniqueId(), usersClient.createUser(user.username(), "12345"));
+                    context.getStore(NAMESPACE).put(context.getUniqueId(), usersClient.createUser(user));
                 }
         );
     }
 
     @Override
-    public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
+    public boolean supportsParameter(ParameterContext parameterContext, @NonNull ExtensionContext extensionContext) throws ParameterResolutionException {
         return parameterContext.getParameter().getType().isAssignableFrom(UserJson.class);
     }
 
     @Override
-    public @Nullable Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
+    public @Nullable Object resolveParameter(@NonNull ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
         return extensionContext.getStore(NAMESPACE).get(extensionContext.getUniqueId(), UserJson.class);
     }
 }
