@@ -5,8 +5,6 @@ import io.student.rococo.service.api.ArtistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 import java.awt.print.Pageable;
@@ -40,12 +38,12 @@ public class ArtistController {
     }
 
     @PostMapping
-    public ArtistJson createArtist(@RequestBody ArtistJson artist, @AuthenticationPrincipal Jwt principal) {
-        return artistService.addArtist(artist, principal);
+    public ArtistJson createArtist(@RequestBody ArtistJson artist) {
+        return artistService.addArtist(artist);
     }
 
     @PatchMapping
-    public ResponseEntity<ArtistJson> updateArtist(@RequestBody ArtistJson artist, @AuthenticationPrincipal Jwt principal) {
-        return artistService.updateArtist(artist, principal);
+    public ResponseEntity<ArtistJson> updateArtist(@RequestBody ArtistJson artist) {
+        return artistService.updateArtist(artist);
     }
 }

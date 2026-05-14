@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -55,7 +54,7 @@ public class ArtistService {
                 artistEntity.getPhoto()));
     }
 
-    public ArtistJson addArtist(ArtistJson artist, Jwt principal) {
+    public ArtistJson addArtist(ArtistJson artist) {
         if (artistRepository.existsByName(artist.name())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Artist already exists");
         }
@@ -73,7 +72,7 @@ public class ArtistService {
                 artistEntity.getPhoto());
     }
 
-    public ResponseEntity<ArtistJson> updateArtist(ArtistJson artist, Jwt principal) {
+    public ResponseEntity<ArtistJson> updateArtist(ArtistJson artist) {
         ArtistEntity artistEntity = artistRepository.findByName(artist.name())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "Artist not found"));
