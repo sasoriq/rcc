@@ -23,6 +23,7 @@ public class ArtistEntity {
     @Column
     private String biography;
 
+    @Lob
     @Column(columnDefinition = "LONGBLOB")
     private byte[] photo;
 
