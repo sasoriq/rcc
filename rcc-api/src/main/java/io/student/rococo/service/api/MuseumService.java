@@ -13,6 +13,8 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Optional;
 import java.util.UUID;
 
+import static io.student.rococo.model.MuseumJson.fromEntity;
+
 @Component
 public class MuseumService {
 
@@ -26,23 +28,11 @@ public class MuseumService {
     public Optional<MuseumJson> museumById(UUID id) {
          MuseumEntity museumEntity = museumRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No museum with the id"));
-         return Optional.of(new MuseumJson(
-                 museumEntity.getId(),
-                 museumEntity.getTitle(),
-                 museumEntity.getDescription(),
-                 museumEntity.getPhoto()
-         ));
+         return Optional.of(fromEntity(museumEntity));
     }
 
     public Page<MuseumJson> allMuseums(Pageable pageable) {
-        return museumRepository.findAll(pageable).map(
-                museumEntity -> new MuseumJson(
-                        museumEntity.getId(),
-                        museumEntity.getTitle(),
-                        museumEntity.getDescription(),
-                        museumEntity.getPhoto()
-                )
-        );
+        return museumRepository.findAll(pageable).map(MuseumJson::fromEntity);
     }
 
     public Page<MuseumJson> museumByTitle(String title, Pageable pageable) {
@@ -52,11 +42,7 @@ public class MuseumService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     "No museum with the title");
         }
-        return page.map(museumEntity -> new MuseumJson(
-                museumEntity.getId(),
-                museumEntity.getTitle(),
-                museumEntity.getDescription(),
-                museumEntity.getPhoto()));
+        return page.map(MuseumJson::fromEntity);
     }
 
     public MuseumJson addMuseum(MuseumJson museum) {
@@ -64,17 +50,10 @@ public class MuseumService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Museum with that title already exists");
         }
 
-        MuseumEntity museumEntity = new MuseumEntity();
-        museumEntity.setTitle(museum.title());
-        museumEntity.setDescription(museum.description());
-        museumEntity.setPhoto(museum.photo());
+        MuseumEntity museumEntity = museum.toEntity();
         museumRepository.save(museumEntity);
 
-        return new MuseumJson(
-                museumEntity.getId(),
-                museumEntity.getTitle(),
-                museumEntity.getDescription(),
-                museumEntity.getPhoto());
+        return fromEntity(museumEntity);
     }
 
     public MuseumJson updateMuseum(MuseumJson museum) {
@@ -83,11 +62,6 @@ public class MuseumService {
         );
         museumEntity.setDescription(museum.description());
         MuseumEntity updatedMuseum = museumRepository.save(museumEntity);
-        return new MuseumJson(
-                updatedMuseum.getId(),
-                updatedMuseum.getTitle(),
-                updatedMuseum.getDescription(),
-                updatedMuseum.getPhoto()
-        );
+        return fromEntity(updatedMuseum);
     }
 }

@@ -9,6 +9,8 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
+import static io.student.rococo.model.UserJson.fromEntity;
+
 @Component
 public class UserService {
     private final UserRepository userRepository;
@@ -24,13 +26,7 @@ public class UserService {
         UserEntity userEntity = userRepository.findByUsername(username).orElseThrow(() ->
                new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found")
         );
-        return new UserJson(
-                userEntity.getId(),
-                username,
-                userEntity.getFirstname(),
-                userEntity.getLastname(),
-                userEntity.getAvatar()
-        );
+        return fromEntity(userEntity);
     }
 
     public UserJson updateUser(UserJson updateRequest, Jwt principal) {
@@ -44,12 +40,6 @@ public class UserService {
         userEntity.setLastname(updateRequest.lastname());
         UserEntity updatedUser = userRepository.save(userEntity);
 
-        return new UserJson(
-                updatedUser.getId(),
-                username,
-                updatedUser.getFirstname(),
-                updatedUser.getLastname(),
-                updatedUser.getAvatar()
-        );
+        return fromEntity(updatedUser);
     }
 }

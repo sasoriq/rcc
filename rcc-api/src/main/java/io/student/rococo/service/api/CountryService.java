@@ -18,10 +18,6 @@ public class CountryService {
     }
 
     public Page<CountryJson> allCountries(Pageable pageable) {
-        return countryRepository.findAll(pageable).map(countryEntity ->
-            new CountryJson(
-                    countryEntity.getId(),
-                    countryEntity.getName()));
-
+        return countryRepository.findAll(pageable).map(CountryJson::fromEntity);
     }
 }

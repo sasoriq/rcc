@@ -14,6 +14,8 @@ import org.springframework.data.domain.Pageable;
 import java.util.Optional;
 import java.util.UUID;
 
+import static io.student.rococo.model.ArtistJson.fromEntity;
+
 @Component
 public class ArtistService {
 
@@ -26,50 +28,30 @@ public class ArtistService {
 
     public Page<ArtistJson> allArtists(Pageable pageable) {
         return artistRepository.findAll(pageable)
-                .map(artistEntity -> new ArtistJson(
-                        artistEntity.getId(),
-                        artistEntity.getName(),
-                        artistEntity.getBiography(),
-                        artistEntity.getPhoto()));
+                .map(ArtistJson::fromEntity);
     }
 
     public Optional<ArtistJson> getArtistById(UUID id) {
         ArtistEntity artistEntity = artistRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Artist not found"));
-        return Optional.of(new ArtistJson(
-                artistEntity.getId(),
-                artistEntity.getName(),
-                artistEntity.getBiography(),
-                artistEntity.getPhoto()));
+        return Optional.of(fromEntity(artistEntity));
     }
 
     public Page<ArtistJson> getArtistByName(String name, Pageable pageable) {
         Page<ArtistEntity> page = artistRepository.findByName(name, pageable);
         if (page.isEmpty()) { throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Artist not found"); }
 
-        return page.map(artistEntity -> new ArtistJson(
-                artistEntity.getId(),
-                artistEntity.getName(),
-                artistEntity.getBiography(),
-                artistEntity.getPhoto()));
+        return page.map(ArtistJson::fromEntity);
     }
 
     public ArtistJson addArtist(ArtistJson artist) {
         if (artistRepository.existsByName(artist.name())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Artist already exists");
         }
-
-        ArtistEntity artistEntity = new ArtistEntity();
-        artistEntity.setName(artist.name());
-        artistEntity.setBiography(artist.biography());
-        artistEntity.setPhoto(artist.photo());
+        ArtistEntity artistEntity = artist.toEntity();
         artistRepository.save(artistEntity);
 
-        return new ArtistJson(
-                artistEntity.getId(),
-                artistEntity.getName(),
-                artistEntity.getBiography(),
-                artistEntity.getPhoto());
+        return fromEntity(artistEntity);
     }
 
     public ResponseEntity<ArtistJson> updateArtist(ArtistJson artist) {
@@ -79,10 +61,7 @@ public class ArtistService {
 
         artistEntity.setBiography(artist.biography());
         ArtistEntity updatedArtist = artistRepository.save(artistEntity);
-        return ResponseEntity.ok(new ArtistJson(
-                updatedArtist.getId(),
-                updatedArtist.getName(),
-                updatedArtist.getBiography(),
-                updatedArtist.getPhoto()));
+
+        return ResponseEntity.ok(fromEntity(updatedArtist));
     }
 }
