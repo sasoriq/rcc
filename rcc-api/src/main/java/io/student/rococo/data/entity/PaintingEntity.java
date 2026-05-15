@@ -14,7 +14,7 @@ import java.util.UUID;
 public class PaintingEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
+    @Column(nullable = false, columnDefinition = "BINARY(16)")
     private UUID id;
 
     @Column(nullable = false)
@@ -27,11 +27,11 @@ public class PaintingEntity {
     private String content;
 
     @ManyToOne
-    @JoinColumn(name = "artist_id", nullable = false)
+    @JoinColumn(name = "artist_id", referencedColumnName = "id")
     private ArtistEntity artist;
 
     @ManyToOne
-    @JoinColumn(name = "museum_id", nullable = false)
+    @JoinColumn(name = "museum_id", referencedColumnName = "id")
     private MuseumEntity museum;
 
     @Override

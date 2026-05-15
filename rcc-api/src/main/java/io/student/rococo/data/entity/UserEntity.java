@@ -14,7 +14,7 @@ import java.util.UUID;
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
+    @Column(nullable = false, columnDefinition = "BINARY(16)")
     private UUID id;
 
     @Column(nullable = false)
@@ -26,7 +26,7 @@ public class UserEntity {
     @Column
     private String lastname;
 
-    @Column
+    @Column(columnDefinition = "LONGBLOB")
     private String avatar;
 
     @Override

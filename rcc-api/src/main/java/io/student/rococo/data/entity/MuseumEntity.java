@@ -14,17 +14,21 @@ import java.util.UUID;
 public class MuseumEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
+    @Column(nullable = false, columnDefinition = "BINARY(16)")
     private UUID id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String title;
 
     @Column
     private String description;
 
-    @Column
+    @Column(columnDefinition = "LONGBLOB")
     private byte[] photo;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "country_id", referencedColumnName = "id")
+    private CountryEntity country;
 
     @Override
     public final boolean equals(Object o) {
