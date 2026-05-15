@@ -4,14 +4,15 @@ import io.student.rococo.data.entity.MuseumEntity;
 
 import java.util.UUID;
 
-public record MuseumJson(UUID id, String title, String description, byte[] photo) {
+public record MuseumJson(UUID id, String title, String description, byte[] photo, CountryJson country) {
 
     public static MuseumJson fromEntity(MuseumEntity entity) {
         return new MuseumJson(
                 entity.getId(),
                 entity.getTitle(),
                 entity.getDescription(),
-                entity.getPhoto());
+                entity.getPhoto(),
+                CountryJson.fromEntity(entity.getCountry()));
     }
 
     public MuseumEntity toEntity() {
@@ -19,6 +20,7 @@ public record MuseumJson(UUID id, String title, String description, byte[] photo
         entity.setTitle(title);
         entity.setDescription(description);
         entity.setPhoto(photo);
+        entity.setCountry(country().toEntity());
         return entity;
     }
 }

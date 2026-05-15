@@ -12,4 +12,11 @@ public record CountryJson(UUID id, String name) {
                 entity.getName()
         );
     }
+
+    public CountryEntity toEntity() {
+        CountryEntity entity = new CountryEntity();
+        entity.setId(id);
+        entity.setName(name);
+        return entity;
+    }
 }
