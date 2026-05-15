@@ -12,8 +12,6 @@ import java.util.UUID;
 
 @Repository
 public interface ArtistRepository extends JpaRepository<ArtistEntity, UUID> {
-    Optional<ArtistEntity> findById(UUID id);
-
     Page<ArtistEntity> findByName(String name, Pageable pageable);
 
     Optional<ArtistEntity> findByName(String name);
