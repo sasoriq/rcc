@@ -9,8 +9,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface ArtistRepository extends JpaRepository<ArtistEntity, UUID> {
-    Page<ArtistEntity> findAll(Pageable pageable);
-
     Optional<ArtistEntity> findById(UUID id);
 
     Page<ArtistEntity> findByName(String name, Pageable pageable);
