@@ -7,6 +7,7 @@ import io.student.rococo.data.repository.PaintingRepository;
 import io.student.rococo.model.ArtistJson;
 import io.student.rococo.model.MuseumJson;
 import io.student.rococo.model.PaintingJson;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import java.util.UUID;
 public class PaintingService {
     private final PaintingRepository paintingRepository;
 
+    @Autowired
     public PaintingService(PaintingRepository paintingRepository) {
         this.paintingRepository = paintingRepository;
     }
