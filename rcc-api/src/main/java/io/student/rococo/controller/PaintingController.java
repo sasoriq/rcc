@@ -1,6 +1,5 @@
 package io.student.rococo.controller;
 
-import io.student.rococo.data.repository.PaintingRepository;
 import io.student.rococo.model.PaintingJson;
 import io.student.rococo.service.api.PaintingService;
 import org.springframework.data.domain.Page;
