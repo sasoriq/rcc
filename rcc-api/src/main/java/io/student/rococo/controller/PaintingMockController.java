@@ -1,7 +1,6 @@
 package io.student.rococo.controller;
 
 import io.student.rococo.model.PaintingJson;
-import io.student.rococo.service.api.PaintingService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -12,41 +11,56 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("api/painting")
-public class PaintingController {
+public class PaintingMockController extends MockController<PaintingJson> {
 
-    private final PaintingService paintingService;
+    @Override
+    protected String getMockResourcePath() {
+        return "mock/painting";
+    }
 
-    public PaintingController(PaintingService paintingService) {
-        this.paintingService = paintingService;
+    @Override
+    protected Class<PaintingJson> getItemClass() {
+        return PaintingJson.class;
+    }
+
+    @Override
+    protected String getItemId(PaintingJson item) {
+        return item.id().toString();
+    }
+
+    @Override
+    protected String getResourceNotFoundMessage(String id) {
+        return "Painting with id \"" + id + "\" not found";
     }
 
     @GetMapping("/{id}")
     public PaintingJson getPaintingById(UUID id) {
-        return paintingService.paintingById(id);
+        return findById(id.toString());
     }
 
     @GetMapping
     public Page<PaintingJson> getAllPaintings(Pageable pageable) {
-        return paintingService.allPaintings(pageable);
+        return getFilteredPage(painting -> true, pageable);
     }
 
     @GetMapping("/author/{artistId}")
     public Page<PaintingJson> getPaintingsByArtist(@PathVariable UUID artistId, Pageable pageable) {
-        return paintingService.paintingByArtist(artistId, pageable);
+        return getFilteredPage(painting -> painting.artist().id().equals(artistId), pageable);
     }
 
     @GetMapping(params = "title")
     public Page<PaintingJson> getPaintingsByTitle(@RequestParam String title, Pageable pageable) {
-        return paintingService.paintingByTitle(title, pageable);
+        return getFilteredPage(painting -> painting.title()
+                .equalsIgnoreCase(title), pageable);
     }
 
     @PostMapping
     public PaintingJson createPainting(@RequestBody PaintingJson painting, @AuthenticationPrincipal Jwt principal) {
-        return paintingService.addPainting(painting);
+        return painting;
     }
 
     @PatchMapping
     public PaintingJson updatePainting(@RequestBody PaintingJson painting, @AuthenticationPrincipal Jwt principal) {
-        return paintingService.updatePainting(painting);
+        return painting;
     }
 }
