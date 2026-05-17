@@ -13,7 +13,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("api/museum")
+@RequestMapping("/api/museum")
 public class MuseumController {
 
     private final MuseumService museumService;

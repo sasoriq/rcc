@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("api/artist")
+@RequestMapping("/api/artist")
 public class ArtistMockController extends MockController<ArtistJson> {
 
     @Override

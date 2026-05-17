@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("api/painting")
+@RequestMapping("/api/painting")
 public class PaintingMockController extends MockController<PaintingJson> {
 
     @Override
