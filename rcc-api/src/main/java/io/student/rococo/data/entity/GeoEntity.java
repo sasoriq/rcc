@@ -11,25 +11,18 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-public class MuseumEntity {
+public class GeoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(nullable = false, columnDefinition = "BINARY(16)")
+    @Column(name = "id", nullable = false)
     private UUID id;
 
-    @Column(nullable = false, unique = true)
-    private String title;
+    @Column(nullable = false)
+    private String city;
 
-    @Column
-    private String description;
-
-    @Lob
-    @Column(columnDefinition = "LONGBLOB")
-    private byte[] photo;
-
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "geo_id", referencedColumnName = "id")
-    private GeoEntity geo;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "country_id", referencedColumnName = "id")
+    private CountryEntity country;
 
     @Override
     public final boolean equals(Object o) {
@@ -40,7 +33,7 @@ public class MuseumEntity {
         Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer()
                 .getPersistentClass() : this.getClass();
         if (thisEffectiveClass != oEffectiveClass) return false;
-        MuseumEntity that = (MuseumEntity) o;
+        GeoEntity that = (GeoEntity) o;
         return id != null && Objects.equals(id, that.id);
     }
 
@@ -50,4 +43,5 @@ public class MuseumEntity {
                 .getPersistentClass()
                 .hashCode() : getClass().hashCode();
     }
+
 }
