@@ -8,11 +8,11 @@ import static com.codeborne.selenide.Selenide.$;
 
 public class MainPage {
 
-    private static final SelenideElement loginBtn = $(".btn");
-    private static final SelenideElement mainNav = $("nav[aria-label='Основная навигация']");
-    private static final SelenideElement addPaintingBtn = $("[href='/painting']");
-    private static final SelenideElement addArtistBtn = $("a[href='/artist']");
-    private static final SelenideElement addAMuseumBtn = $("a[href='/museum']");
+    private final SelenideElement loginBtn = $(".btn");
+    private final SelenideElement mainNav = $("nav[aria-label='Основная навигация']");
+    private final SelenideElement addPaintingBtn = $("[href='/painting']");
+    private final SelenideElement addArtistBtn = $("a[href='/artist']");
+    private final SelenideElement addAMuseumBtn = $("a[href='/museum']");
 
     public LoginPage navigateToTheLoginPage() {
         loginBtn.click();

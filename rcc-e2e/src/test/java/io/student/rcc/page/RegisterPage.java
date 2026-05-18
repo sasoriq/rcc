@@ -20,29 +20,29 @@ public class RegisterPage {
 
     public RegisterPage setUsername(String username) {
         usernameInput.setValue(username);
-        return new RegisterPage();
+        return this;
     }
 
     public RegisterPage setPassword(String password) {
         passwordInput.setValue(password);
-        return new RegisterPage();
+        return this;
     }
 
     public RegisterPage setPasswordSubmit(String confirmPassword) {
         confirmPasswordInput.setValue(confirmPassword);
-        return new RegisterPage();
+        return this;
     }
 
     public RegisterPage submitRegistration() {
         submitBtn.click();
-        return new RegisterPage();
+        return this;
     }
 
     public RegisterPage checkRegistrationWasSuccessful() {
         subHeader.shouldBe(visible).shouldHave(text("Добро пожаловать в Rococo"));
         loginBtn.shouldBe(visible).shouldHave(text("Войти в систему"));
         contentImg.shouldBe(visible);
-        return new RegisterPage();
+        return this;
     }
 
     public void navigateToTheMainPageAfterClickSignIn() {

@@ -7,20 +7,20 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
 public class LoginPage {
-    private final SelenideElement usernameInput = $("[name = 'username']");
-    private final SelenideElement passwordInput = $("[name = 'password']");
+    private final SelenideElement usernameInput = $("[name='username']");
+    private final SelenideElement passwordInput = $("[name='password']");
     private final SelenideElement submitBtn = $(".form__submit");
     private final SelenideElement registerBtn = $(".form__link");
     private final SelenideElement credentialsErrorMessage = $(".form__error.login__error");
 
     public LoginPage setUsername(String username) {
         usernameInput.setValue(username);
-        return new LoginPage();
+        return this;
     }
 
     public LoginPage setPassword(String password) {
         passwordInput.setValue(password);
-        return new LoginPage();
+        return this;
     }
 
     public MainPage successfulSubmitLogin() {
@@ -30,7 +30,7 @@ public class LoginPage {
 
     public LoginPage unsuccessfulSubmitLogin() {
         submitBtn.click();
-        return new LoginPage();
+        return this;
     }
 
     public RegisterPage navigateToTheRegisterPage() {
@@ -40,7 +40,7 @@ public class LoginPage {
 
     public LoginPage checkErrorMessageIncorrectCredentials() {
         credentialsErrorMessage.shouldBe(visible).shouldHave(text("Неверные учетные данные пользователя"));
-        return new LoginPage();
+        return this;
     }
 
     public void checkStillStayOnLoginPage() {

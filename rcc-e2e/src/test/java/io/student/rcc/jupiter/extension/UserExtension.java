@@ -7,7 +7,11 @@ import io.student.rcc.services.UsersClient;
 import io.student.rcc.services.UsersDbClient;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
-import org.junit.jupiter.api.extension.*;
+import org.junit.jupiter.api.extension.BeforeEachCallback;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.ParameterContext;
+import org.junit.jupiter.api.extension.ParameterResolutionException;
+import org.junit.jupiter.api.extension.ParameterResolver;
 import org.junit.platform.commons.support.AnnotationSupport;
 
 public class UserExtension implements BeforeEachCallback, ParameterResolver {
@@ -37,7 +41,7 @@ public class UserExtension implements BeforeEachCallback, ParameterResolver {
 
     @Override
     public boolean supportsParameter(ParameterContext parameterContext, @NonNull ExtensionContext extensionContext) throws ParameterResolutionException {
-        return parameterContext.getParameter().getType().isAssignableFrom(UserJson.class);
+        return parameterContext.getParameter().getType().equals(UserJson.class);
     }
 
     @Override

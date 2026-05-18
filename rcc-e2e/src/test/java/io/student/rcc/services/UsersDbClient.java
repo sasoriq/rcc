@@ -15,20 +15,16 @@ public class UsersDbClient implements UsersClient {
 
     private static final Config CFG = Config.getInstance();
     private final PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    private final JdbcTemplate jdbcTemplate = new JdbcTemplate(
+            new SingleConnectionDataSource(
+                    CFG.authJdbcUrl(),
+                    CFG.dbUsername(),
+                    CFG.dbPassword(), 
+                    true));
 
     @Override
     public UserJson createUser(UserJson user) {
         final String userId = UUID.randomUUID().toString();
-
-        final JdbcTemplate jdbcTemplate = new JdbcTemplate(
-                new SingleConnectionDataSource(
-                        CFG.authJdbcUrl(),
-                        CFG.dbUsername(),
-                        CFG.dbPassword(),
-                        true
-                )
-        );
-
         jdbcTemplate.update(
                 con -> {
                     PreparedStatement ps = con.prepareStatement(
@@ -37,7 +33,7 @@ public class UsersDbClient implements UsersClient {
                     );
                     ps.setString(1, userId);
                     ps.setString(2, user.username());
-                    ps.setInt(3, 1);
+                    ps.setBoolean(3, true);
                     ps.setInt(4, 1);
                     ps.setInt(5, 1);
                     ps.setInt(6, 1);

@@ -1,7 +1,9 @@
 package io.student.rcc.config;
 
 public interface Config {
-    static Config getInstance() { return LocalConfig.INSTANCE; }
+    static Config getInstance() {
+        return LocalConfig.INSTANCE;
+    }
 
     String frontUrl();
 
