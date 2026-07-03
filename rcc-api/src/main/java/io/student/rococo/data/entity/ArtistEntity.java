@@ -11,23 +11,21 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-public class UserEntity {
+public class ArtistEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false, columnDefinition = "BINARY(16)")
     private UUID id;
 
     @Column(nullable = false)
-    private String username;
+    private String name;
 
     @Column
-    private String firstname;
+    private String biography;
 
-    @Column
-    private String lastname;
-
+    @Lob
     @Column(columnDefinition = "LONGBLOB")
-    private String avatar;
+    private byte[] photo;
 
     @Override
     public final boolean equals(Object o) {
@@ -38,7 +36,7 @@ public class UserEntity {
         Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer()
                 .getPersistentClass() : this.getClass();
         if (thisEffectiveClass != oEffectiveClass) return false;
-        UserEntity that = (UserEntity) o;
+        ArtistEntity that = (ArtistEntity) o;
         return id != null && Objects.equals(id, that.id);
     }
 
