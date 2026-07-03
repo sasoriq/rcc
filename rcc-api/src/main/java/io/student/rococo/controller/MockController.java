@@ -59,4 +59,11 @@ public abstract class MockController<T> {
         .findFirst()
         .orElseThrow(() -> new ResourceNotFoundException(getResourceNotFoundMessage(id)));
   }
+
+    protected T getFilteredData(Predicate<T> filter) {
+        return items.stream()
+                .filter(filter)
+                .findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException(getResourceNotFoundMessage("Data not found")));
+    }
 }
