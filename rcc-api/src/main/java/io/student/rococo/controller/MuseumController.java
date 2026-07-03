@@ -5,45 +5,46 @@ import io.student.rococo.service.api.MuseumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.web.bind.annotation.*;
 
-@RestController()
+import java.util.Optional;
+import java.util.UUID;
+
+@RestController
 @RequestMapping("/api/museum")
 public class MuseumController {
 
-  private final MuseumService museumService;
+    private final MuseumService museumService;
 
-  @Autowired
-  public MuseumController(MuseumService museumService) {
-    this.museumService = museumService;
-  }
+    @Autowired
+    public MuseumController(MuseumService museumService) {
+        this.museumService = museumService;
+    }
 
-  @GetMapping()
-  public Page<MuseumJson> getAll(@RequestParam(required = false) String title,
-                                 @PageableDefault Pageable pageable) {
-    return museumService.all(title, pageable);
-  }
+    @GetMapping("/{id}")
+    public Optional<MuseumJson> getMuseumById(@PathVariable UUID id) {
+        return museumService.museumById(id);
+    }
 
-  @GetMapping("/{id}")
-  public MuseumJson findArtistById(@PathVariable("id") String id) {
-    return museumService.findById(id);
-  }
+    @GetMapping
+    public Page<MuseumJson> getAllMuseums(Pageable pageable) {
+        return museumService.allMuseums(pageable);
+    }
 
-  @PatchMapping()
-  public MuseumJson updateMuseum(@RequestBody MuseumJson museum) {
-    return museumService.update(museum);
-  }
+    @GetMapping(params = "title")
+    public Page<MuseumJson> searchMuseumByTitle(@RequestParam String title, Pageable pageable) {
+        return museumService.museumByTitle(title, pageable);
+    }
 
-  @PostMapping()
-  public MuseumJson addMuseum(@RequestBody MuseumJson museum) {
-    return museumService.create(museum);
-  }
+    @PostMapping
+    public MuseumJson createMuseum(@RequestBody MuseumJson museum, @AuthenticationPrincipal Jwt principal) {
+        return museumService.addMuseum(museum);
+    }
+
+    @PatchMapping
+    public MuseumJson updateMuseum(@RequestBody MuseumJson museum, @AuthenticationPrincipal Jwt principal) {
+        return museumService.updateMuseum(museum);
+    }
 }
