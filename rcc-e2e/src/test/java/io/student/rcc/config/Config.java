@@ -9,6 +9,8 @@ public interface Config {
 
     String authJdbcUrl();
 
+    String apiJdbcUrl();
+
     String dbUsername();
 
     String dbPassword();

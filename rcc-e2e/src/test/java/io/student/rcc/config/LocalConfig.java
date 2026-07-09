@@ -10,6 +10,9 @@ public enum LocalConfig implements Config {
     public String authJdbcUrl() { return "jdbc:mysql://localhost:3306/rococo-auth"; }
 
     @Override
+    public String apiJdbcUrl() { return "jdbc:mysql://localhost:3306/rococo-api"; }
+
+    @Override
     public String dbUsername() { return "root"; }
 
     @Override
