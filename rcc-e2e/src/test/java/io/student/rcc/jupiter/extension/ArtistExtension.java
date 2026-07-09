@@ -2,8 +2,8 @@ package io.student.rcc.jupiter.extension;
 
 import io.student.rcc.jupiter.annotation.Artist;
 import io.student.rcc.model.api.ArtistJson;
-import io.student.rcc.services.ArtistClient;
-import io.student.rcc.services.ArtistDbClient;
+import io.student.rcc.service.ArtistClient;
+import io.student.rcc.service.impl.ArtistDbClient;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.extension.BeforeEachCallback;

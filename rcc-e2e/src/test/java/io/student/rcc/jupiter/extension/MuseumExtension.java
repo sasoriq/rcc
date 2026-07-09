@@ -2,8 +2,8 @@ package io.student.rcc.jupiter.extension;
 
 import io.student.rcc.jupiter.annotation.Museum;
 import io.student.rcc.model.api.MuseumJson;
-import io.student.rcc.services.MuseumClient;
-import io.student.rcc.services.MuseumDbClient;
+import io.student.rcc.service.MuseumClient;
+import io.student.rcc.service.impl.MuseumDbClient;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.extension.BeforeEachCallback;

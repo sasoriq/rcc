@@ -1,4 +1,4 @@
-package io.student.rcc.services;
+package io.student.rcc.service.impl;
 
 import io.student.rcc.config.Config;
 import io.student.rcc.data.entity.api.PaintingEntity;
@@ -6,6 +6,7 @@ import io.student.rcc.data.repository.PaintingRepository;
 import io.student.rcc.data.repository.impl.api.painting.PaintingRepositoryHibernate;
 import io.student.rcc.data.tpl.XaTransactionTemplate;
 import io.student.rcc.model.api.PaintingJson;
+import io.student.rcc.service.PaintingClient;
 
 public class PaintingDbClient implements PaintingClient {
 

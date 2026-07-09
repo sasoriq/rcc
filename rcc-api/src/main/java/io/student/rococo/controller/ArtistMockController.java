@@ -2,11 +2,16 @@ package io.student.rococo.controller;
 
 import io.student.rococo.model.ArtistJson;
 import org.springframework.data.domain.Page;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import org.springframework.data.domain.Pageable;
-import java.util.UUID;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/artist")
@@ -29,32 +34,34 @@ public class ArtistMockController extends MockController<ArtistJson> {
 
     @Override
     protected String getResourceNotFoundMessage(String id) {
-        return "Artist with id \"" + id + "\" not found";
+        return String.format("Художник не найден по id: %s", id);
     }
 
-    @GetMapping
-    public Page<ArtistJson> getAllArtists(Pageable pageable) {
+    @GetMapping()
+    public Page<ArtistJson> getAll(@RequestParam(required = false) String name,
+        @PageableDefault Pageable pageable) {
+        if (name != null && !name.isEmpty()) {
+            return getFilteredPage(
+                artist -> artist.name().toLowerCase().contains(name.toLowerCase()),
+                pageable
+            );
+        }
         return getFilteredPage(artist -> true, pageable);
     }
 
     @GetMapping("/{id}")
-    public ArtistJson getArtistById(@PathVariable UUID id) {
-        return findById(id.toString());
+    public ArtistJson findArtistById(@PathVariable("id") String id) {
+        return findById(id);
     }
 
-    @GetMapping(params = "name")
-    public Page<ArtistJson> searchArtistByName(@RequestParam String name, Pageable pageable) {
-        return getFilteredPage(artist -> artist.name()
-                .equalsIgnoreCase(name), pageable);
-    }
-
-    @PostMapping
-    public ArtistJson createArtist(@RequestBody ArtistJson artist) {
+    @PatchMapping()
+    public ArtistJson updateArtist(@RequestBody ArtistJson artist) {
         return artist;
     }
 
-    @PatchMapping
-    public ResponseEntity<ArtistJson> updateArtist(@RequestBody ArtistJson artist) {
-        return ResponseEntity.ok(artist);
+    @PostMapping()
+    public ArtistJson addArtist(@RequestBody ArtistJson artist) {
+        return artist;
     }
+
 }

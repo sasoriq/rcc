@@ -1,25 +1,13 @@
 package io.student.rococo.service.api;
 
-import io.student.rococo.data.repository.CountryRepository;
 import io.student.rococo.model.CountryJson;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-@Service
-public class CountryService {
+public interface CountryService {
+  Page<CountryJson> all(String name, Pageable pageable);
 
-    private final CountryRepository countryRepository;
+  CountryJson findCountryByName(String name);
 
-    @Autowired
-    public CountryService(CountryRepository countryRepository) {
-        this.countryRepository = countryRepository;
-    }
-
-    @Transactional(readOnly = true)
-    public Page<CountryJson> allCountries(Pageable pageable) {
-        return countryRepository.findAll(pageable).map(CountryJson::fromEntity);
-    }
+  CountryJson findCountryById(String id);
 }

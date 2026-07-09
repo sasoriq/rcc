@@ -16,33 +16,33 @@ import java.util.Set;
 @Component
 public class CorsCustomizer {
 
-  private final String frontUri;
+    private final String frontUri;
 
-  @Autowired
-  public CorsCustomizer(@Value("${rococo-front.base-uri}") String frontUri) {
-    this.frontUri = frontUri;
-  }
+    @Autowired
+    public CorsCustomizer(@Value("${rococo-front.base-uri}") String frontUri) {
+        this.frontUri = frontUri;
+    }
 
-  public Set<String> allowedOrigins() {
-    return Set.of(frontUri);
-  }
+    public Set<String> allowedOrigins() {
+        return Set.of(frontUri);
+    }
 
-  public void apply(HttpSecurity http) throws Exception {
-    http.cors(customizer());
-  }
+    public void apply(HttpSecurity http) {
+        http.cors(customizer());
+    }
 
-  Customizer<CorsConfigurer<HttpSecurity>> customizer() {
-    return c -> c.configurationSource(corsConfigurationSource());
-  }
+    Customizer<CorsConfigurer<HttpSecurity>> customizer() {
+        return c -> c.configurationSource(corsConfigurationSource());
+    }
 
-  CorsConfigurationSource corsConfigurationSource() {
-    return request -> {
-      CorsConfiguration cc = new CorsConfiguration();
-      cc.setAllowCredentials(true);
-      cc.setAllowedOrigins(new ArrayList<>(allowedOrigins()));
-      cc.setAllowedHeaders(List.of("*"));
-      cc.setAllowedMethods(List.of("*"));
-      return cc;
-    };
-  }
+    CorsConfigurationSource corsConfigurationSource() {
+        return request -> {
+            CorsConfiguration cc = new CorsConfiguration();
+            cc.setAllowCredentials(true);
+            cc.setAllowedOrigins(new ArrayList<>(allowedOrigins()));
+            cc.setAllowedHeaders(List.of("*"));
+            cc.setAllowedMethods(List.of("*"));
+            return cc;
+        };
+    }
 }

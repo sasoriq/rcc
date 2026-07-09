@@ -1,4 +1,4 @@
-package io.student.rcc.services;
+package io.student.rcc.service.impl;
 
 import io.student.rcc.config.Config;
 import io.student.rcc.data.entity.api.UserEntity;
@@ -11,6 +11,7 @@ import io.student.rcc.data.repository.impl.auth.AuthUserRepositoryHibernate;
 import io.student.rcc.data.tpl.XaTransactionTemplate;
 import io.student.rcc.model.api.UserJson;
 import io.student.rcc.model.auth.Authority;
+import io.student.rcc.service.UsersClient;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 

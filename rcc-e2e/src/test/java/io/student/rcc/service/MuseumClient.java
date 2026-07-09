@@ -1,4 +1,4 @@
-package io.student.rcc.services;
+package io.student.rcc.service;
 
 import io.student.rcc.model.api.MuseumJson;
 

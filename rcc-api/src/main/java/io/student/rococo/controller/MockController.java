@@ -17,53 +17,46 @@ import java.util.stream.Collectors;
 
 public abstract class MockController<T> {
 
-  protected final List<T> items = new ArrayList<>();
-  protected final ObjectMapper objectMapper = new ObjectMapper();
+    protected final List<T> items = new ArrayList<>();
+    protected final ObjectMapper objectMapper = new ObjectMapper();
 
-  protected abstract String getMockResourcePath();
+    protected abstract String getMockResourcePath();
 
-  protected abstract Class<T> getItemClass();
+    protected abstract Class<T> getItemClass();
 
-  protected abstract String getItemId(T item);
+    protected abstract String getItemId(T item);
 
-  protected abstract String getResourceNotFoundMessage(String id);
+    protected abstract String getResourceNotFoundMessage(String id);
 
-  @PostConstruct
-  public void loadMockData() throws IOException {
-    Resource[] resources = new PathMatchingResourcePatternResolver()
-        .getResources(String.format("classpath:%s/*.json", getMockResourcePath()));
-    for (Resource resource : resources) {
-      T item = objectMapper.readValue(resource.getInputStream(), getItemClass());
-      items.add(item);
+    @PostConstruct
+    public void loadMockData() throws IOException {
+        Resource[] resources = new PathMatchingResourcePatternResolver()
+            .getResources(String.format("classpath:%s/*.json", getMockResourcePath()));
+        for (Resource resource : resources) {
+            T item = objectMapper.readValue(resource.getInputStream(), getItemClass());
+            items.add(item);
+        }
     }
-  }
 
-  protected Page<T> getFilteredPage(Predicate<T> filter, Pageable pageable) {
-    List<T> filtered = items.stream()
-        .filter(filter)
-        .collect(Collectors.toList());
+    protected Page<T> getFilteredPage(Predicate<T> filter, Pageable pageable) {
+        List<T> filtered = items.stream()
+            .filter(filter)
+            .collect(Collectors.toList());
 
-    int start = (int) pageable.getOffset();
-    int end = Math.min(start + pageable.getPageSize(), filtered.size());
+        int start = (int) pageable.getOffset();
+        int end = Math.min(start + pageable.getPageSize(), filtered.size());
 
-    List<T> pageContent = start < filtered.size()
-        ? filtered.subList(start, end)
-        : new ArrayList<>();
+        List<T> pageContent = start < filtered.size()
+            ? filtered.subList(start, end)
+            : new ArrayList<>();
 
-    return new PageImpl<>(pageContent, pageable, filtered.size());
-  }
+        return new PageImpl<>(pageContent, pageable, filtered.size());
+    }
 
-  protected T findById(String id) {
-    return items.stream()
-        .filter(item -> getItemId(item).equals(id))
-        .findFirst()
-        .orElseThrow(() -> new ResourceNotFoundException(getResourceNotFoundMessage(id)));
-  }
-
-    protected T getFilteredData(Predicate<T> filter) {
+    protected T findById(String id) {
         return items.stream()
-                .filter(filter)
-                .findFirst()
-                .orElseThrow(() -> new ResourceNotFoundException(getResourceNotFoundMessage("Data not found")));
+            .filter(item -> getItemId(item).equals(id))
+            .findFirst()
+            .orElseThrow(() -> new ResourceNotFoundException(getResourceNotFoundMessage(id)));
     }
 }

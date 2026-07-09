@@ -1,4 +1,4 @@
-package io.student.rcc.services;
+package io.student.rcc.service.impl;
 
 import io.student.rcc.config.Config;
 import io.student.rcc.data.entity.api.MuseumEntity;
@@ -6,6 +6,7 @@ import io.student.rcc.data.repository.MuseumRepository;
 import io.student.rcc.data.repository.impl.api.museum.MuseumRepositoryHibernate;
 import io.student.rcc.data.tpl.XaTransactionTemplate;
 import io.student.rcc.model.api.MuseumJson;
+import io.student.rcc.service.MuseumClient;
 
 public class MuseumDbClient implements MuseumClient {
 

@@ -12,42 +12,42 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class CustomErrorController implements ErrorController {
 
-  private static final String ERROR_VIEW_NAME = "error";
+    private static final String ERROR_VIEW_NAME = "error";
 
-  private final String frontUri;
+    private final String frontUri;
 
-  public CustomErrorController(@Value("${rococo-front.base-uri}") String frontUri) {
-    this.frontUri = frontUri;
-  }
-
-  @RequestMapping("/error")
-  public String handleError(HttpServletRequest request, Model model) {
-    Object statusCodeAttr = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-    int statusCode = statusCodeAttr instanceof Integer
-        ? (Integer) statusCodeAttr
-        : HttpStatus.INTERNAL_SERVER_ERROR.value();
-
-    HttpStatus httpStatus = HttpStatus.resolve(statusCode);
-    if (httpStatus == null) {
-      httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+    public CustomErrorController(@Value("${rococo-front.base-uri}") String frontUri) {
+        this.frontUri = frontUri;
     }
 
-    Object messageAttr = request.getAttribute(RequestDispatcher.ERROR_MESSAGE);
-    String message = messageAttr != null
-        ? messageAttr.toString()
-        : null;
+    @RequestMapping("/error")
+    public String handleError(HttpServletRequest request, Model model) {
+        Object statusCodeAttr = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
+        int statusCode = statusCodeAttr instanceof Integer
+            ? (Integer) statusCodeAttr
+            : HttpStatus.INTERNAL_SERVER_ERROR.value();
 
-    Object pathAttr = request.getAttribute(RequestDispatcher.ERROR_REQUEST_URI);
-    String path = pathAttr != null
-        ? pathAttr.toString()
-        : request.getRequestURI();
+        HttpStatus httpStatus = HttpStatus.resolve(statusCode);
+        if (httpStatus == null) {
+            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
 
-    model.addAttribute("status", statusCode);
-    model.addAttribute("error", httpStatus.getReasonPhrase());
-    model.addAttribute("message", message);
-    model.addAttribute("path", path);
-    model.addAttribute("frontUri", frontUri);
+        Object messageAttr = request.getAttribute(RequestDispatcher.ERROR_MESSAGE);
+        String message = messageAttr != null
+            ? messageAttr.toString()
+            : null;
 
-    return ERROR_VIEW_NAME;
-  }
+        Object pathAttr = request.getAttribute(RequestDispatcher.ERROR_REQUEST_URI);
+        String path = pathAttr != null
+            ? pathAttr.toString()
+            : request.getRequestURI();
+
+        model.addAttribute("status", statusCode);
+        model.addAttribute("error", httpStatus.getReasonPhrase());
+        model.addAttribute("message", message);
+        model.addAttribute("path", path);
+        model.addAttribute("frontUri", frontUri);
+
+        return ERROR_VIEW_NAME;
+    }
 }
