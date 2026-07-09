@@ -2,7 +2,7 @@ package io.student.rcc.jupiter.extension;
 
 import com.github.javafaker.Faker;
 import io.student.rcc.jupiter.annotation.User;
-import io.student.rcc.model.UserJson;
+import io.student.rcc.model.api.UserJson;
 import io.student.rcc.services.UsersClient;
 import io.student.rcc.services.UsersDbClient;
 import org.jspecify.annotations.NonNull;
