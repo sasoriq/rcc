@@ -3,7 +3,7 @@ package io.student.rcc.tests;
 import com.codeborne.selenide.Selenide;
 import io.student.rcc.config.Config;
 import io.student.rcc.jupiter.annotation.User;
-import io.student.rcc.model.UserJson;
+import io.student.rcc.model.api.UserJson;
 import io.student.rcc.page.MainPage;
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +19,7 @@ public class LoginTests {
         Selenide.open(CFG.frontUrl(), MainPage.class)
                 .navigateToTheLoginPage()
                 .setUsername(user.username())
-                .setPassword(user.password())
+                .setPassword("12345")
                 .successfulSubmitLogin()
                 .checkTheMainPageDisplayed();
     }
