@@ -1,75 +1,77 @@
 package io.student.rcc.services;
 
 import io.student.rcc.config.Config;
-import io.student.rcc.model.Authority;
-import io.student.rcc.model.UserJson;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.SingleConnectionDataSource;
+import io.student.rcc.data.entity.api.UserEntity;
+import io.student.rcc.data.entity.auth.AuthUserEntity;
+import io.student.rcc.data.entity.auth.AuthorityEntity;
+import io.student.rcc.data.repository.AuthUserRepository;
+import io.student.rcc.data.repository.UserRepository;
+import io.student.rcc.data.repository.impl.api.user.UserRepositoryHibernate;
+import io.student.rcc.data.repository.impl.auth.AuthUserRepositoryHibernate;
+import io.student.rcc.data.tpl.XaTransactionTemplate;
+import io.student.rcc.model.api.UserJson;
+import io.student.rcc.model.auth.Authority;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.sql.PreparedStatement;
-import java.util.UUID;
+import java.util.Arrays;
 
 public class UsersDbClient implements UsersClient {
 
     private static final Config CFG = Config.getInstance();
-    private final PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    private final JdbcTemplate jdbcTemplate = new JdbcTemplate(
-            new SingleConnectionDataSource(
-                    CFG.authJdbcUrl(),
-                    CFG.dbUsername(),
-                    CFG.dbPassword(), 
-                    true));
+    private final PasswordEncoder pe = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+
+    private final AuthUserRepository authUserRep = new AuthUserRepositoryHibernate();
+    private final UserRepository userRep = new UserRepositoryHibernate();
+
+    private final XaTransactionTemplate xaTransactionTemplate = new XaTransactionTemplate(
+        CFG.authJdbcUrl(),
+        CFG.apiJdbcUrl()
+    );
+
+    public UserJson createUser(String username) {
+        return xaTransactionTemplate.execute(() ->
+            UserJson.fromEntity(persistUser(username))
+        );
+    }
 
     @Override
     public UserJson createUser(UserJson user) {
-        final String userId = UUID.randomUUID().toString();
-        jdbcTemplate.update(
-                con -> {
-                    PreparedStatement ps = con.prepareStatement(
-                            "INSERT INTO user (id, username, account_non_expired, account_non_locked, " +
-                                "credentials_non_expired, enabled, password) VALUES (UUID_TO_BIN(?, true), ?, ?, ?, ?, ?, ?)"
-                    );
-                    ps.setString(1, userId);
-                    ps.setString(2, user.username());
-                    ps.setBoolean(3, true);
-                    ps.setInt(4, 1);
-                    ps.setInt(5, 1);
-                    ps.setInt(6, 1);
-                    ps.setString(7, passwordEncoder.encode(user.password()));
-                    return ps;
-                }
+        return xaTransactionTemplate.execute(() ->
+            UserJson.fromEntity(persistUser(user.username()))
         );
+    }
 
-        jdbcTemplate.update(
-                con -> {
-                    PreparedStatement ps = con.prepareStatement(
-                            "INSERT INTO authority (authority, user_id) VALUES (?, UUID_TO_BIN(?, true))"
-                    );
-                    ps.setString(1, Authority.read.name());
-                    ps.setString(2, userId);
-                    return ps;
-                }
-        );
+    private UserEntity persistUser(String username) {
+        AuthUserEntity authUser = createAuthUserEntity(username);
+        authUserRep.create(authUser);
+        return userRep.create(createUserEntity(username));
+    }
 
-        jdbcTemplate.update(
-                con -> {
-                    PreparedStatement ps = con.prepareStatement(
-                            "INSERT INTO authority (authority, user_id) VALUES (?, UUID_TO_BIN(?, true))"
-                    );
-                    ps.setString(1, Authority.write.name());
-                    ps.setString(2, userId);
-                    return ps;
-                }
-        );
+    private UserEntity createUserEntity(String username) {
+        UserEntity user = new UserEntity();
+        user.setUsername(username);
+        return user;
+    }
 
-        return new UserJson(
-                UUID.fromString(userId),
-                user.username(),
-                user.firstname(),
-                user.password(),
-                user.avatar()
+    private AuthUserEntity createAuthUserEntity(String username) {
+        AuthUserEntity authUser = new AuthUserEntity();
+        authUser.setUsername(username);
+        authUser.setPassword(pe.encode("12345"));
+        authUser.setEnabled(true);
+        authUser.setAccountNonExpired(true);
+        authUser.setAccountNonLocked(true);
+        authUser.setCredentialsNonExpired(true);
+        authUser.setAuthorities(
+            Arrays.stream(Authority.values()).map(
+                authority -> {
+                    AuthorityEntity userAuthority = new AuthorityEntity();
+                    userAuthority.setAuthority(authority);
+                    userAuthority.setUser(authUser);
+                    return userAuthority;
+                }
+            ).toList()
         );
+        return authUser;
     }
 }
