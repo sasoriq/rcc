@@ -1,6 +1,5 @@
 package io.student.rcc.data.mapper;
 
-import io.student.rcc.data.entity.api.ArtistEntity;
 import io.student.rcc.data.entity.api.CountryEntity;
 import io.student.rcc.data.entity.api.GeoEntity;
 import io.student.rcc.data.entity.api.MuseumEntity;

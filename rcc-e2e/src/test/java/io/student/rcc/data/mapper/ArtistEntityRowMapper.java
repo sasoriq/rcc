@@ -1,7 +1,6 @@
 package io.student.rcc.data.mapper;
 
 import io.student.rcc.data.entity.api.ArtistEntity;
-import io.student.rcc.data.entity.api.UserEntity;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;

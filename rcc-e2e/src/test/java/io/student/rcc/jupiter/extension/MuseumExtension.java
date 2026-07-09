@@ -1,6 +1,5 @@
 package io.student.rcc.jupiter.extension;
 
-import com.github.javafaker.Faker;
 import io.student.rcc.jupiter.annotation.Museum;
 import io.student.rcc.model.api.MuseumJson;
 import io.student.rcc.services.MuseumClient;

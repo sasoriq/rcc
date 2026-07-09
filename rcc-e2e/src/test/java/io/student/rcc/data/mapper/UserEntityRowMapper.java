@@ -22,7 +22,7 @@ public class UserEntityRowMapper implements RowMapper<UserEntity> {
         entity.setUsername(rs.getString("username"));
         entity.setFirstname(rs.getString("firstname"));
         entity.setLastname(rs.getString("lastname"));
-        entity.setAvatar(rs.getString("avatar"));
+        entity.setAvatar(rs.getBytes("avatar"));
         return entity;
     }
 }

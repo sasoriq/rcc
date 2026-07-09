@@ -1,6 +1,5 @@
 package io.student.rcc.jupiter.extension;
 
-import com.github.javafaker.Faker;
 import io.student.rcc.jupiter.annotation.Artist;
 import io.student.rcc.model.api.ArtistJson;
 import io.student.rcc.services.ArtistClient;
