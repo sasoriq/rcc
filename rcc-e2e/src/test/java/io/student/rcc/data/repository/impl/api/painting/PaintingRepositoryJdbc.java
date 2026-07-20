@@ -5,6 +5,7 @@ import io.student.rcc.data.entity.api.PaintingEntity;
 import io.student.rcc.data.mapper.PaintingEntityRowMapper;
 import io.student.rcc.data.repository.PaintingRepository;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,6 +17,7 @@ import java.util.UUID;
 
 import static io.student.rcc.data.tpl.Connections.holder;
 
+@ParametersAreNonnullByDefault
 public class PaintingRepositoryJdbc implements PaintingRepository {
 
     private static final Config CFG = Config.getInstance();

@@ -3,13 +3,15 @@ package io.student.rcc.data.mapper;
 import io.student.rcc.data.entity.api.ArtistEntity;
 import org.springframework.jdbc.core.RowMapper;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
+@ParametersAreNonnullByDefault
 public class ArtistEntityRowMapper implements RowMapper<ArtistEntity> {
 
-    public final static ArtistEntityRowMapper instance = new ArtistEntityRowMapper();
+    public static final ArtistEntityRowMapper instance = new ArtistEntityRowMapper();
 
     private ArtistEntityRowMapper() {
 

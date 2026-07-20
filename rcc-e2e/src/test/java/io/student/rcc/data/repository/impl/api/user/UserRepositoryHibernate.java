@@ -6,12 +6,14 @@ import io.student.rcc.data.repository.UserRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import static io.student.rcc.data.jpa.EntityManagers.em;
 
+@ParametersAreNonnullByDefault
 public class UserRepositoryHibernate implements UserRepository {
 
     private static final Config CFG = Config.getInstance();

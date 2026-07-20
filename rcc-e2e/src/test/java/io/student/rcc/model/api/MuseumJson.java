@@ -3,15 +3,19 @@ package io.student.rcc.model.api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.student.rcc.data.entity.api.MuseumEntity;
+import org.jspecify.annotations.Nullable;
+import retrofit2.internal.EverythingIsNonNull;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Base64;
 import java.util.UUID;
 
+@ParametersAreNonnullByDefault
 public record MuseumJson(
     @JsonProperty("id") UUID id,
     @JsonProperty("title") String title,
-    @JsonProperty("description") String description,
-    @JsonProperty("photo") String photo,
+    @Nullable @JsonProperty("description") String description,
+    @Nullable @JsonProperty("photo") String photo,
     @JsonProperty("geo") GeoJson geo) {
 
     public static MuseumJson fromEntity(MuseumEntity entity) {

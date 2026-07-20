@@ -4,17 +4,21 @@ package io.student.rcc.model.api;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.student.rcc.data.entity.api.PaintingEntity;
+import org.jspecify.annotations.Nullable;
+import retrofit2.internal.EverythingIsNonNull;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.UUID;
 
+@ParametersAreNonnullByDefault
 public record PaintingJson(
         @JsonProperty("id") UUID id,
         @JsonProperty("title") String title,
-        @JsonProperty("description") String description,
-        @JsonProperty("content") String content,
+        @Nullable @JsonProperty("description") String description,
+        @Nullable @JsonProperty("content") String content,
         @JsonProperty("artist") ArtistJson artist,
-        @JsonProperty("museum") MuseumJson museum,
-        @JsonIgnore TestData testData
+        @Nullable @JsonProperty("museum") MuseumJson museum,
+        @Nullable @JsonIgnore TestData testData
 ) {
 
     public static PaintingJson fromEntity(PaintingEntity entity) {
@@ -29,7 +33,7 @@ public record PaintingJson(
         );
     }
 
-    public PaintingJson addTestData(TestData testData) {
+    public PaintingJson addTestData(@Nullable TestData testData) {
         return new PaintingJson(
             id,
             title,

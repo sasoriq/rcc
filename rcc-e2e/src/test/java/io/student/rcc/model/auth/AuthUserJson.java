@@ -2,26 +2,20 @@ package io.student.rcc.model.auth;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.student.rcc.data.entity.auth.AuthUserEntity;
+import org.jspecify.annotations.NonNull;
 
 import java.util.UUID;
 
 public record AuthUserJson(
-    @JsonProperty("id")
-    UUID id,
-    @JsonProperty("username")
-    String username,
-    @JsonProperty("password")
-    String password,
-    @JsonProperty("enabled")
-    Boolean enabled,
-    @JsonProperty("account_non_expired")
-    Boolean accountNonExpired,
-    @JsonProperty("account_non_locked")
-    Boolean accountNonLocked,
-    @JsonProperty("credentials_non_expired")
-    Boolean credentialsNonExpired
+    @NonNull @JsonProperty("id") UUID id,
+    @NonNull @JsonProperty("username") String username,
+    @NonNull @JsonProperty("password") String password,
+    @NonNull @JsonProperty("enabled") Boolean enabled,
+    @NonNull @JsonProperty("account_non_expired") Boolean accountNonExpired,
+    @NonNull @JsonProperty("account_non_locked") Boolean accountNonLocked,
+    @NonNull @JsonProperty("credentials_non_expired") Boolean credentialsNonExpired
 ) {
-    public static AuthUserJson fromEntity(AuthUserEntity entity) {
+    public static @NonNull AuthUserJson fromEntity(@NonNull AuthUserEntity entity) {
         return new AuthUserJson(
             entity.getId(),
             entity.getUsername(),

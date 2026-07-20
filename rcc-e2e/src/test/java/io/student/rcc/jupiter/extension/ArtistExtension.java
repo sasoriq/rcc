@@ -4,8 +4,6 @@ import io.student.rcc.jupiter.annotation.Artist;
 import io.student.rcc.model.api.ArtistJson;
 import io.student.rcc.service.ArtistClient;
 import io.student.rcc.service.impl.ArtistDbClient;
-import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
@@ -13,11 +11,13 @@ import org.junit.jupiter.api.extension.ParameterResolutionException;
 import org.junit.jupiter.api.extension.ParameterResolver;
 import org.junit.platform.commons.support.AnnotationSupport;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Optional;
 
 import static io.student.rcc.jupiter.extension.TestMethodContextExtension.context;
 import static io.student.rcc.jupiter.factory.TestDataFactory.artist;
 
+@ParametersAreNonnullByDefault
 public class ArtistExtension implements BeforeEachCallback, ParameterResolver {
 
     public static final ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create(ArtistExtension.class);
@@ -38,12 +38,12 @@ public class ArtistExtension implements BeforeEachCallback, ParameterResolver {
     }
 
     @Override
-    public boolean supportsParameter(ParameterContext parameterContext, @NonNull ExtensionContext extensionContext) throws ParameterResolutionException {
+    public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
         return parameterContext.getParameter().getType().equals(ArtistJson.class);
     }
 
     @Override
-    public @Nullable ArtistJson resolveParameter(@NonNull ParameterContext parameterContext, @NonNull ExtensionContext extensionContext) throws ParameterResolutionException {
+    public ArtistJson resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
         return createdArtist().orElseThrow(() -> new ParameterResolutionException("Artist was not created"));
     }
 

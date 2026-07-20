@@ -5,13 +5,15 @@ import io.student.rcc.data.entity.api.GeoEntity;
 import io.student.rcc.data.entity.api.MuseumEntity;
 import org.springframework.jdbc.core.RowMapper;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
+@ParametersAreNonnullByDefault
 public class MuseumEntityRowMapper implements RowMapper<MuseumEntity> {
 
-    public final static MuseumEntityRowMapper instance = new MuseumEntityRowMapper();
+    public static final MuseumEntityRowMapper instance = new MuseumEntityRowMapper();
 
     private MuseumEntityRowMapper() {
 

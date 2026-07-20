@@ -2,6 +2,9 @@ package io.student.rcc.service;
 
 import io.student.rcc.model.api.UserJson;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@ParametersAreNonnullByDefault
 public interface UsersClient {
-    UserJson createUser(UserJson user);
+    UserJson createUser(UserJson user, String password);
 }

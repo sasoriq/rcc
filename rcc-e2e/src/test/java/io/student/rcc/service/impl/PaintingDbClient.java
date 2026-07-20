@@ -8,6 +8,9 @@ import io.student.rcc.data.tpl.XaTransactionTemplate;
 import io.student.rcc.model.api.PaintingJson;
 import io.student.rcc.service.PaintingClient;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@ParametersAreNonnullByDefault
 public class PaintingDbClient implements PaintingClient {
 
     private static final Config CFG = Config.getInstance();

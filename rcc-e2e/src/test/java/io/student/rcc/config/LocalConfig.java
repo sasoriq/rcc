@@ -7,10 +7,10 @@ public enum LocalConfig implements Config {
     public String frontUrl() { return "http://localhost:3000"; }
 
     @Override
-    public String authJdbcUrl() { return "jdbc:mysql://localhost:3306/rococo-auth"; }
+    public String authJdbcUrl() { return "jdbc:mysql://localhost:3306/rococo-auth?serverTimezone=UTC&createDatabaseIfNotExist=true"; }
 
     @Override
-    public String apiJdbcUrl() { return "jdbc:mysql://localhost:3306/rococo-api"; }
+    public String apiJdbcUrl() { return "jdbc:mysql://localhost:3306/rococo-api?serverTimezone=UTC&createDatabaseIfNotExist=true"; }
 
     @Override
     public String dbUsername() { return "root"; }

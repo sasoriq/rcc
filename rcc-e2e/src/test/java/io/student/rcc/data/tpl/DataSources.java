@@ -3,6 +3,7 @@ package io.student.rcc.data.tpl;
 import com.atomikos.jdbc.AtomikosDataSourceBean;
 import io.student.rcc.config.Config;
 import org.apache.commons.lang3.StringUtils;
+import org.jspecify.annotations.NonNull;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -18,14 +19,15 @@ public class DataSources {
     private static final Config CFG = Config.getInstance();
     private static final Map<String, DataSource> dataSources = new ConcurrentHashMap<>();
 
-    public static DataSource dataSource(String jdbcUrl) {
+    public static DataSource dataSource(@NonNull String jdbcUrl) {
         return dataSources.computeIfAbsent(
             jdbcUrl,
             key -> {
                 AtomikosDataSourceBean dsBean = new AtomikosDataSourceBean();
-                final String uniqId = StringUtils.substringAfter(jdbcUrl, "5432/");
+                final String uniqId = StringUtils.substringBefore(
+                    StringUtils.substringAfterLast(jdbcUrl, "/"),"?");
                 dsBean.setUniqueResourceName(uniqId);
-                dsBean.setXaDataSourceClassName("org.postgresql.xa.PGXADataSource");
+                dsBean.setXaDataSourceClassName("com.mysql.cj.jdbc.MysqlXADataSource");
                 Properties props = new Properties();
                 props.put("URL", jdbcUrl);
                 props.put("user", CFG.dbUsername());

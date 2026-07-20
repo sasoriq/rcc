@@ -5,13 +5,16 @@ import io.student.rcc.data.entity.api.ArtistEntity;
 import io.student.rcc.data.repository.ArtistRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
+import retrofit2.internal.EverythingIsNonNull;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import static io.student.rcc.data.jpa.EntityManagers.em;
 
+@ParametersAreNonnullByDefault
 public class ArtistRepositoryHibernate implements ArtistRepository {
 
     private static final Config CFG = Config.getInstance();

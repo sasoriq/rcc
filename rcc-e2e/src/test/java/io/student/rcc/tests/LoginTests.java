@@ -2,8 +2,6 @@ package io.student.rcc.tests;
 
 import com.codeborne.selenide.Selenide;
 import io.student.rcc.config.Config;
-import io.student.rcc.jupiter.annotation.User;
-import io.student.rcc.model.api.UserJson;
 import io.student.rcc.page.MainPage;
 import org.junit.jupiter.api.Test;
 
@@ -13,12 +11,11 @@ public class LoginTests {
     private static final String INVALID_PASSWORD = "123456";
     private static final String INVALID_USERNAME = "username";
 
-    @User
     @Test
-    void mainPageShouldBeDisplayedAfterSuccessLogin(UserJson user) {
+    void mainPageShouldBeDisplayedAfterSuccessLogin() {
         Selenide.open(CFG.frontUrl(), MainPage.class)
                 .navigateToTheLoginPage()
-                .setUsername(user.username())
+                .setUsername("duck")
                 .setPassword("12345")
                 .successfulSubmitLogin()
                 .checkTheMainPageDisplayed();

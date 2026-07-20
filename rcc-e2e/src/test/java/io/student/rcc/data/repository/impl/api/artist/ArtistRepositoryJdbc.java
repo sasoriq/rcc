@@ -5,6 +5,7 @@ import io.student.rcc.data.entity.api.ArtistEntity;
 import io.student.rcc.data.mapper.ArtistEntityRowMapper;
 import io.student.rcc.data.repository.ArtistRepository;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,6 +17,7 @@ import java.util.UUID;
 
 import static io.student.rcc.data.tpl.Connections.holder;
 
+@ParametersAreNonnullByDefault
 public class ArtistRepositoryJdbc implements ArtistRepository {
 
     private static final Config CFG = Config.getInstance();

@@ -7,13 +7,15 @@ import io.student.rcc.data.entity.api.MuseumEntity;
 import io.student.rcc.data.entity.api.PaintingEntity;
 import org.springframework.jdbc.core.RowMapper;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
+@ParametersAreNonnullByDefault
 public class PaintingEntityRowMapper implements RowMapper<PaintingEntity> {
 
-    public final static PaintingEntityRowMapper instance = new PaintingEntityRowMapper();
+    public static final PaintingEntityRowMapper instance = new PaintingEntityRowMapper();
 
     private PaintingEntityRowMapper() {
 

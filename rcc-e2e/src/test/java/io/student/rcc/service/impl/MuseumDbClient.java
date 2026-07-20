@@ -8,6 +8,9 @@ import io.student.rcc.data.tpl.XaTransactionTemplate;
 import io.student.rcc.model.api.MuseumJson;
 import io.student.rcc.service.MuseumClient;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@ParametersAreNonnullByDefault
 public class MuseumDbClient implements MuseumClient {
 
     private static final Config CFG = Config.getInstance();

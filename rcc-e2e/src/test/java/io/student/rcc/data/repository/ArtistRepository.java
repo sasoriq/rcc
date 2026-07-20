@@ -4,11 +4,14 @@ import io.student.rcc.data.entity.api.ArtistEntity;
 import io.student.rcc.data.repository.impl.api.artist.ArtistRepositoryHibernate;
 import io.student.rcc.data.repository.impl.api.artist.ArtistRepositoryJdbc;
 import io.student.rcc.data.repository.impl.api.artist.ArtistRepositorySpringJdbc;
+import retrofit2.internal.EverythingIsNonNull;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@ParametersAreNonnullByDefault
 public interface ArtistRepository {
     static ArtistRepository getInstance() {
         return switch (System.getProperty("repository.impl", "jpa")) {

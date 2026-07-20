@@ -15,8 +15,10 @@ import io.student.rcc.service.UsersClient;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Arrays;
 
+@ParametersAreNonnullByDefault
 public class UsersDbClient implements UsersClient {
 
     private static final Config CFG = Config.getInstance();
@@ -30,35 +32,31 @@ public class UsersDbClient implements UsersClient {
         CFG.apiJdbcUrl()
     );
 
-    public UserJson createUser(String username) {
-        return xaTransactionTemplate.execute(() ->
-            UserJson.fromEntity(persistUser(username))
-        );
-    }
-
     @Override
-    public UserJson createUser(UserJson user) {
+    public UserJson createUser(UserJson user, String password) {
         return xaTransactionTemplate.execute(() ->
-            UserJson.fromEntity(persistUser(user.username()))
+            UserJson.fromEntity(persistUser(user, password))
         );
     }
 
-    private UserEntity persistUser(String username) {
-        AuthUserEntity authUser = createAuthUserEntity(username);
+    private UserEntity persistUser(UserJson user, String password) {
+        AuthUserEntity authUser = createAuthUserEntity(user.username(), password);
         authUserRep.create(authUser);
-        return userRep.create(createUserEntity(username));
+        return userRep.create(createUserEntity(user));
     }
 
-    private UserEntity createUserEntity(String username) {
+    private UserEntity createUserEntity(UserJson userJson) {
         UserEntity user = new UserEntity();
-        user.setUsername(username);
+        user.setUsername(userJson.username());
+        user.setFirstname(userJson.firstname());
+        user.setLastname(userJson.lastname());
         return user;
     }
 
-    private AuthUserEntity createAuthUserEntity(String username) {
+    private AuthUserEntity createAuthUserEntity(String username, String password) {
         AuthUserEntity authUser = new AuthUserEntity();
         authUser.setUsername(username);
-        authUser.setPassword(pe.encode("12345"));
+        authUser.setPassword(pe.encode(password));
         authUser.setEnabled(true);
         authUser.setAccountNonExpired(true);
         authUser.setAccountNonLocked(true);

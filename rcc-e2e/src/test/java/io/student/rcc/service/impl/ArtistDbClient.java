@@ -8,6 +8,9 @@ import io.student.rcc.data.tpl.XaTransactionTemplate;
 import io.student.rcc.model.api.ArtistJson;
 import io.student.rcc.service.ArtistClient;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@ParametersAreNonnullByDefault
 public class ArtistDbClient implements ArtistClient {
 
     private static final Config CFG = Config.getInstance();

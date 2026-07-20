@@ -4,11 +4,14 @@ import io.student.rcc.data.entity.auth.AuthUserEntity;
 import io.student.rcc.data.repository.impl.auth.AuthUserRepositoryHibernate;
 import io.student.rcc.data.repository.impl.auth.AuthUserRepositoryJdbc;
 import io.student.rcc.data.repository.impl.auth.AuthUserRepositorySpringJdbc;
+import retrofit2.internal.EverythingIsNonNull;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@ParametersAreNonnullByDefault
 public interface AuthUserRepository {
     static AuthUserRepository getInstance() {
         return switch (System.getProperty("repository.impl", "jpa")) {
