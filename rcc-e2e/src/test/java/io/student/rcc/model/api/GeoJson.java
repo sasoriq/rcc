@@ -2,8 +2,6 @@ package io.student.rcc.model.api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.student.rcc.data.entity.api.GeoEntity;
-import org.jspecify.annotations.Nullable;
-import retrofit2.internal.EverythingIsNonNull;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.UUID;

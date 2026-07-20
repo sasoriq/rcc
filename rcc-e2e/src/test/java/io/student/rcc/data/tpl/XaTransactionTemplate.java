@@ -2,7 +2,6 @@ package io.student.rcc.data.tpl;
 
 import com.atomikos.icatch.jta.UserTransactionImp;
 import jakarta.transaction.Status;
-import jakarta.transaction.SystemException;
 import jakarta.transaction.UserTransaction;
 
 import javax.annotation.Nullable;

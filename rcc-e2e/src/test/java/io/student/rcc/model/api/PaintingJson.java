@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.student.rcc.data.entity.api.PaintingEntity;
 import org.jspecify.annotations.Nullable;
-import retrofit2.internal.EverythingIsNonNull;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.UUID;

@@ -5,7 +5,6 @@ import io.student.rcc.data.entity.api.ArtistEntity;
 import io.student.rcc.data.repository.ArtistRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
-import retrofit2.internal.EverythingIsNonNull;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;

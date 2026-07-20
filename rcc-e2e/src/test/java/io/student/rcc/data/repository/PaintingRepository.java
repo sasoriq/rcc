@@ -4,7 +4,6 @@ import io.student.rcc.data.entity.api.PaintingEntity;
 import io.student.rcc.data.repository.impl.api.painting.PaintingRepositoryHibernate;
 import io.student.rcc.data.repository.impl.api.painting.PaintingRepositoryJdbc;
 import io.student.rcc.data.repository.impl.api.painting.PaintingRepositorySpringJdbc;
-import retrofit2.internal.EverythingIsNonNull;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;

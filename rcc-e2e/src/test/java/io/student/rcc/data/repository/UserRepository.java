@@ -4,7 +4,6 @@ import io.student.rcc.data.entity.api.UserEntity;
 import io.student.rcc.data.repository.impl.api.user.UserRepositoryHibernate;
 import io.student.rcc.data.repository.impl.api.user.UserRepositoryJdbc;
 import io.student.rcc.data.repository.impl.api.user.UserRepositorySpringJdbc;
-import retrofit2.internal.EverythingIsNonNull;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;

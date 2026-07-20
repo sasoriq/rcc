@@ -2,7 +2,6 @@ package io.student.rcc.model.api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.student.rcc.data.entity.api.CountryEntity;
-import retrofit2.internal.EverythingIsNonNull;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.UUID;

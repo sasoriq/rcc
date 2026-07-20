@@ -6,7 +6,6 @@ import io.student.rcc.data.entity.auth.AuthorityEntity;
 import io.student.rcc.data.repository.AuthUserRepository;
 import io.student.rcc.data.tpl.DataSources;
 import io.student.rcc.model.auth.Authority;
-import org.jspecify.annotations.NonNull;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -59,7 +58,7 @@ public class AuthUserRepositorySpringJdbc implements AuthUserRepository, ResultS
             "INSERT INTO `authority` (user_id, authority) VALUES (?, ?)",
             new BatchPreparedStatementSetter() {
                 @Override
-                public void setValues(@NonNull PreparedStatement ps, int i) throws SQLException {
+                public void setValues(PreparedStatement ps, int i) throws SQLException {
                     ps.setObject(1, user.getId());
                     ps.setString(2, user.getAuthorities().get(i).getAuthority().name());
                 }
